@@ -1,0 +1,113 @@
+# Checker
+
+Checker is an essential tool for developers aiming to maintain the quality and organization of their software projects.
+
+This software automatically scans the source code for comments containing the terms "check", "todo", or "fix".
+
+By identifying these terms, Checker generates detailed reports that help developers track and manage pending tasks, quality checks, and necessary fixes.
+
+With Check, code maintenance becomes more efficient and effective, ensuring that no important task is overlooked.
+
+At end of Check runner it will return a error to the terminal to inform that happens a error and block the followed actions, this protect you to proceed with a unfinished task.
+
+## Getting started
+
+### Install it
+
+You can install the package from the command line:
+
+```bash
+    dart pub global activate checker
+```
+
+### Setup
+
+After installed, create a new file in you project root named `check.yaml` and add the settings as example below:
+
+> All these settings can be ignored, but it's recommended use some combinations for save you time since this tool will check all files, so we can ignore folders and filetypes.
+
+```yaml
+patterns: # this represents the pattern that we want found
+  - "// fix:" # here when using special characters like colon ':' yaml will interpret this as a nested object so to avoid this we use double quoted patterns like these example
+  - "// todo:"
+
+target: # we can explicit the file type that we wish focus to ignore the others types if this is empty, check command will check all filetypes
+  - dart
+
+skipFile: # we also can ignore subtypes like code generation files adding this here
+  - .gen.dart
+  - .freezed.dart
+
+skipFolder: # this is very helpful to avoid look to unnecessary folders
+  - /.dart_tool
+  - /.git
+```
+
+## Run
+
+From you root project run:
+
+```bash
+checker
+```
+
+When the `checker` command has finished, a message will inform you what's happen:
+If no match was found it will return a success code($? >> 0) to the system and display a message:
+
+`Success, no matches found!`
+
+If it found one or more patterns, the `checker` command will exit wit a error code ($? >> 1) and present a detailed message from where was found the patterns:
+
+```bash
+File: /Users/JsonDev/Developer/flutter/my_tool/lib/components/badges/car_badge_widget.dart:26
+} // FIX: remove the function of refresh screen
+
+File: /Users/JsonDev/Developer/flutter/my_tool/lib/components/badges/car_badge_widget.dart:36
+} // FIX: rename this function to a better name
+
+```
+
+This will read the `yaml` file to get the settings and search for the patterns defined using the specified settings.
+
+## Debug
+
+To setup correctly the settings it was added a debug flag to print some helpful logs, to use debug option add the `-d` flag after the `checker` command.
+
+```bash
+checker -d
+```
+
+It will print the folders that are been scanned and the patterns found.
+
+## Some usage
+
+One case where it's helpful is when you are refactoring the code and you must avoid push commented code, so you can put a comment like `// fix: need fix this before push because ...` and run the `push` command with the `checker` command first, like `checker && git push`.
+
+## Complete check.yaml example
+
+```yaml
+patterns:
+  - "// fix:"
+  - "// todo:"
+
+target:
+  - dart
+
+skipFile:
+  - .gen.dart
+  - .freezed.dart
+
+skipFolder:
+  - /.dart_tool
+  - /.git
+  - /.vscode
+  - /.idea
+  - /build
+  - /android
+  - /ios
+  - /windows
+  - /web
+  - /linux
+  - /macos
+  - /.fvm
+```

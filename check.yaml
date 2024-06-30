@@ -1,0 +1,24 @@
+patterns:
+  - "// fix:"
+  - "// todo:"
+
+target:
+  - dart
+
+skipFile:
+  - .gen.dart
+  - .freezed.dart
+
+skipFolder:
+  - /.dart_tool
+  - /.git
+  - /.vscode
+  - /.idea
+  - /build
+  - /android
+  - /ios
+  - /windows
+  - /web
+  - /linux
+  - /macos
+  - /.fvm
