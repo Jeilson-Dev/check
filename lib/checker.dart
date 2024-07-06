@@ -9,13 +9,16 @@ bool kDebugMode = false;
 
 class CodeGuard {
   final List<String> matches = [];
+  final List<String> warningsMatches = [];
   final List<String> patterns;
+  final List<String> warnings;
   final List<String> targetFileTypes;
   final List<String> explicitIgnoreSubType;
   final List<String> explicitIgnoreFolder;
 
   CodeGuard({
     required this.patterns,
+    required this.warnings,
     required this.targetFileTypes,
     required this.explicitIgnoreSubType,
     required this.explicitIgnoreFolder,
@@ -60,6 +63,8 @@ class CodeGuard {
       int lineCount = 1;
       for (var line in fileContent) {
         final hasMatcher = _hasMatcher(line: line, patterns: patterns);
+        final hasWarnings = _hasMatcher(line: line, patterns: warnings);
+
         if (hasMatcher) {
           matches.add('File: ${file.path}:$lineCount');
           matches.add(line.trim());
@@ -68,6 +73,15 @@ class CodeGuard {
           Logger.w(
               message:
                   'Found matcher in ${file.path} line: $lineCount -  ${line.trim()}');
+        }
+        if (hasWarnings) {
+          warningsMatches.add('File: ${file.path}:$lineCount');
+          warningsMatches.add(line.trim());
+          warningsMatches.add('');
+
+          Logger.w(
+              message:
+                  'Found warning in ${file.path} line: $lineCount -  ${line.trim()}');
         }
         lineCount++;
       }

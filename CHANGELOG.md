@@ -1,3 +1,7 @@
+## 1.1.0
+
+- New feature, add warnings to track. Using warning option it will display the warning logs instead return a error this only remember you that has unfinished tasks.
+
 ## 1.0.0
 
 - Define stable version.

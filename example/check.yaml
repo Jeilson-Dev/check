@@ -1,15 +1,17 @@
 patterns:
   - "// fix:"
+
+warnings:
   - "// todo:"
 
-targetFileTypes:
+target:
   - dart
 
-explicitIgnoreSubType:
+skipFile:
   - .gen.dart
   - .freezed.dart
 
-explicitIgnoreFolder:
+skipFolder:
   - /.dart_tool
   - /.git
   - /.vscode

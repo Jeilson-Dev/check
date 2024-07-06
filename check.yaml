@@ -1,5 +1,7 @@
 patterns:
   - "// fix:"
+
+warnings:
   - "// todo:"
 
 target:
